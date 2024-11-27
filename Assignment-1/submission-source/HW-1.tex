@@ -1,0 +1,717 @@
+\documentclass{article}
+\usepackage{amsmath}				% want AMS fonts
+\usepackage{amssymb}                            % use AMS symbols
+\usepackage{graphicx}
+\usepackage{enumerate,url}
+ %\usepackage[ruled]{algorithm2e}
+\input{p}
+\usepackage{framed} %custom addition
+\newcommand{\Mod}[1]{\ (\mathrm{mod}\ #1)}
+
+\raggedbottom
+
+\begin{document}
+\raggedbottom
+\homeworksol{1}{{\sf Total:} $70$ points}{Aug 12, 2024}{Anit Mangal}
+\vspace*{-0.4cm}
+{ \sf \textbf{{\color{red}Note}}: {\color{blue} The basic policies are stated in the course page. Using GPT (or similar tools) to solve problems from the assignment is \textbf{strictly prohibited}. Use of any other (possibly online) source(s) \textbf{must} be clearly stated in the solution. \textbf{Any dishonesty, if caught, will yield zero credits for the entire assignment.}}}\\\vspace*{-0.2cm}
+\hrule
+\begin{description}[leftmargin=*]
+	\item[A. [Modular Arithmetic : \!\!\!\!  $\mathbf{3 \times 3 = 9\ points.}$\!\!\!]] 
+	%\begin{comment}	%solution space
+	\begin{framed}
+		{\bf Answers}
+		\begin{description}
+			\item[A.1] 
+			\begin{flalign*}
+					25 &\equiv 1 \Mod{8} &\\
+				\intertext{We know that, if $a \equiv b\Mod{m}\Rightarrow ac \equiv bc \Mod{m}$. \newline Multiplying by $25$}
+					\Rightarrow25^2 &\equiv 25 \Mod{8} \\
+						&\equiv 1 \Mod{8} \\
+					25^3 &\equiv 25 \Mod{8} \\
+						&\equiv 1 \Mod{8} \\
+						&\vdots\\
+					25^n &\equiv 1 \Mod{8} \\
+					5^{2n} &\equiv 1 \Mod{8}
+				\intertext{Using $a \equiv b \Mod{m} \Rightarrow a+c \equiv b+c\Mod{m}$}
+					\Rightarrow5^{2n} + 7 &\equiv (1+7) \Mod{8}\\
+						&\equiv 0 \Mod{8}
+			\end{flalign*}
+			{\color{blue}$\therefore 8 \mid (5^{2n}+7), \forall n \in \N.$}
+			\newpage
+			\item[A.2]
+			\begin{flalign}
+					7 &\equiv 3 \Mod{4}\nonumber &\\
+				\intertext{We know that, if $a \equiv b\Mod{m}\Rightarrow ac \equiv bc \Mod{m}$. \newline Multiplying by $7$}
+					\Rightarrow 7^2 &\equiv 3\cdot7 \Mod{4} \nonumber\\
+						&\equiv 21 \Mod{4} \nonumber\\
+						&\equiv 1 \Mod{4} \nonumber\\
+					7^4 &\equiv 1\cdot7^2 \Mod{4} \nonumber\\
+						&\equiv 49 \Mod{4} \nonumber\\
+						&\equiv 1 \Mod{4} \nonumber\\
+					7^6 &\equiv 1\cdot7^2 \Mod{4} \nonumber\\
+						&\equiv 49 \Mod{4} \nonumber\\
+						&\equiv 1 \Mod{4} \nonumber\\
+						&\vdots\nonumber\\
+					7^{32} &\equiv 1 \Mod{4} \nonumber\\
+					\Rightarrow6\cdot7^{32} &\equiv 6 \Mod{4} \equiv 2 \Mod{4}
+				\intertext{Now,}
+					9 &\equiv 1 \Mod{4} \nonumber\\
+					\Rightarrow9^2 &\equiv 1\cdot9 \Mod{4} \nonumber\\
+						&\equiv 9 \Mod{4} \nonumber\\
+						&\equiv 1 \Mod{4} \nonumber\\
+					9^4 &\equiv 1\cdot81 \Mod{4} \nonumber\\
+						&\equiv 81 \Mod{4} \nonumber\\
+						&\equiv 1 \Mod{4} \nonumber\\
+						&\vdots\nonumber\\
+					9^{44} &\equiv 1 \Mod{4} \nonumber\\
+					9^{45} &\equiv 1\cdot9 \Mod{4} \nonumber\\
+						&\equiv 9 \Mod{4} \nonumber\\
+						&\equiv 1 \Mod{4} \nonumber\\
+					\Rightarrow7\cdot9^{45} &\equiv 7 \Mod{4} \equiv 3 \Mod{4}
+			\end{flalign}
+			Using $a \equiv b \Mod{m}$ and $c \equiv d \Mod{m}\Rightarrow a+c \equiv b+d \Mod{m}$\newline Adding $(1)$ and $(2)$
+			\begin{flalign*}
+				\Rightarrow(6\cdot7^{32}+7\cdot9^{45}) &\equiv(2+3)\Mod{4} &\\
+					&\equiv5\Mod{4} \\
+					&\equiv1\Mod{4}
+			\end{flalign*}
+			{\color{blue}$\therefore$ remainder when $6\cdot7^{32}+7\cdot9^{45}$ is divided by $4$ is $1$}.
+			\clearpage
+			\item[A.3]
+			\begin{flalign*}
+				4n^2 + 1 &\equiv 0 \Mod{65} &\\
+				4n^2 &\equiv -1 \Mod{65} \\
+				4n^2 &\equiv 64 \Mod{65} \\
+				n^2 &\equiv 16 \Mod{65}
+				\intertext{One solution for this is}
+				n &\equiv \pm4 \Mod{65}
+			\end{flalign*}
+			{\color{blue}$\Rightarrow n = 65k+4 \text{ or } 65k+61 , \forall k \in \N_0$. \\ Hence, there exist infinitely many $n \in \N$ such that $4n^2+1$ is divisible by $65$.}
+			\clearpage
+		\end{description}
+	\end{framed}
+	%\end{comment}
+	\clearpage
+	\item[B. [GCD and Euclid's Algorithm : \!\!\!\!  $\mathbf{5 + 2 + (3\times 3) = 16 \ points.}$\!\!\!]] 
+
+	%\begin{comment}
+	\begin{framed}
+		{\bf Answers}
+		\begin{description}
+			\item[B.1] 
+			$ a = -85652,\ b = 16261$ \\
+			Using {\it Euclidean division algorithm}, computing $GCD(a,b)$ \\
+			Since $a < b$, swapping $a$ and $b$
+			\begin{flalign*}
+				16261 &= -85652 \times 0 \ + 16261 &\\
+				-85652 &= 16261 \times -6 \ + 11914 \\
+				16261 &= 11914 \times 1 \ + 4347 \\
+				11914 &= 4347 \times 2 \ + 3220 \\
+				4347 &= 3220 \times 1 \ + 1127 \\
+				3220 &= 1127 \times 2 \ + 966 \\
+				1127 &= 966 \times 1 \ + 161 \\
+				966 &= 161 \times 6 \ + 0
+			\end{flalign*}
+			{\color{blue} So, $GCD(a,b) = 161$.}\\ \\
+			Using {\it Extended Euclidean Algorithm},
+			\begin{equation*}
+			\text{\quad}GCD(a,b) = GCD(b, a\%b),\ a \ge b
+			\end{equation*}
+			And, by {\it B\'ezout's Identity},
+			\begin{equation*}
+			\text{\quad}\exists x,y \in \Z{} \text{ such that } GCD(a,b) = ax+by
+			\end{equation*}
+			Let $x_1,y_1$ be B\'ezout's coefficients for $GCD(b, a\%b)$
+			\begin{flalign*}
+				\therefore ax+by &= bx_1 + (a-\left\lfloor{\frac{a}{b}}\right\rfloor b)y_1 &\\
+				ax+by &= ay_1 + b(x_1 - \left\lfloor{\frac{a}{b}}\right\rfloor y_1)
+			\end{flalign*}
+			\begin{flalign}
+				\boxed{
+				\Rightarrow x = y_1, y = x_1 - \left\lfloor{\frac{a}{b}}\right\rfloor y_1} &&
+			\end{flalign}
+			Using this result recursively, B\'ezout's coefficients for $a,b$ can be found. \\
+			For $ a = -85652,\ b = 16261$,
+			\begin{flalign*}
+				&GCD(-85652, 16261) &\longrightarrow x_1,y_1 &&\\
+				&= GCD(16261, 11914) &\longrightarrow x_2,y_2 &&\\
+				&= GCD(11914, 4347) &\longrightarrow x_3,y_3 &&\\
+				&= GCD(4347, 3220) &\longrightarrow x_4,y_4 &&\\
+				&= GCD(3220, 1127) &\longrightarrow x_5,y_5 &&\\
+				&= GCD(1127, 966) &\longrightarrow x_6,y_6 &&\\
+				&= GCD(966, 161) &\longrightarrow x_7,y_7 &&\\
+				&= 161&
+			\end{flalign*}
+			Since $966\cdot(1) + 161\cdot(-5) = 161$
+			\begin{flalign*}
+				x_7 = 1 &, y_7 = -5
+				\intertext{Using result $(3)$ recursively,}
+				x_6 = -5 &, y_6 = 1 - \left\lfloor{\frac{1127}{966}}\right\rfloor\cdot(-5) = 6 \\
+				x_5 = 6 &, y_5 = -5 - \left\lfloor{\frac{3220}{1127}}\right\rfloor\cdot(6) = -17 \\
+				x_4 = -17 &, y_4 = 6 - \left\lfloor{\frac{4347}{3220}}\right\rfloor\cdot(-17) = 23 \\
+				x_3 = 23 &, y_3 = -17 - \left\lfloor{\frac{11914}{4347}}\right\rfloor\cdot(23) = -63 \\
+				x_2 = -63 &, y_2 = 23 - \left\lfloor{\frac{16261}{11914}}\right\rfloor\cdot(-63) = 86 \\
+				x_1 = 86 &, y_1 = -63 - \left\lfloor{\frac{-85652}{16261}}\right\rfloor\cdot(86) = 453
+			\end{flalign*}
+			$\therefore GCD(a,b)$ expressed as linear combination of $a$ and $b$ is
+			{\color{blue}
+				\begin{flalign}
+					-85652\cdot86 + 16261\cdot453 = 161
+				\end{flalign}
+			}
+			Now, $LCM(-85652, 16261) = -8650852$, \\
+			Adding and subtracting $-8650852k$ in (4), $\forall k \in \Z{}$
+			\begin{flalign*}
+				&(-85652)\cdot86 + 16261\cdot453 + (-8650852k) - (-8650852k) = 161 &\\
+				&(-85652)\cdot86 + 16261\cdot453 + (-85652)\cdot(101k) - 16261\cdot(-532k) = 161 &\\
+				&(-85652)\cdot(86+101k) + 16261\cdot(453+532k) = 161 &\\
+				\Rightarrow & x = 86+101k, y = 453+532k, \forall k \in \Z{} &
+			\end{flalign*}
+			{\color{blue}$\therefore \ S = \{(86+101k, 453+532k) \mid k \in \Z{}\}$}\\
+			Let $GCD(a,b) = d$ and $p \in \mathbb{P}$ be the smallest prime number greater than d \\
+			Since p is prime, $GCD(d, p) = 1$\\
+			Using B\'ezout's Identity,
+			\begin{flalign*}
+				&\exists x,y \in \Z{} \text{ such that } dx + py = 1&\\
+				\Rightarrow & dx \equiv 1 \Mod{p} &\\
+				\Rightarrow & x \equiv (d^{-1}) \Mod{p}
+			\end{flalign*}
+			So, x (B\'ezout's coefficient of d) is $d^{-1}$. \\
+			For $ a = -85652,\ b = 16261$,
+			\begin{flalign*}
+				& d = 161 \Rightarrow p = 163&\\
+				& GCD(163, 161) &&\longrightarrow x,y&&\\
+				& = GCD(161, 2) &&\longrightarrow x_1,y_1&&\\
+				& = 1&\\
+				& \text{Now, }161\cdot(1) + 2\cdot(-80) = 1 &\\
+				&\Rightarrow x_1 = 1, y_1 = -80 &\\
+				& x = -80, y = 1 - \left\lfloor{\frac{163}{161}}\right\rfloor\cdot(-80) = 81 &\\
+				& 163\cdot(-80) + 161\cdot(81) = 1 &
+			\end{flalign*}
+			{\color{blue} $\therefore (161)^{-1} \Mod{163} = 81$}
+			\newpage
+			\item[B.2] $gcd^{+}: \N\times\N\rightarrow\N $
+			\begin{flalign*}
+				&\text{Checking if } gcd^{+} \text{is injective.} &\\
+				\intertext{It is sufficient to show that if $\forall (a_1,b_1),(a_2,b_2) \in \N^2$,\newline $gcd^{+}(a_1,b_1) = gcd^{+}(a_2,b_2) \Rightarrow a_1 = a_2 \text{ and } b_1 = b_2$}
+				&\text{Take } a_1 = 2, b_1 = 4 &\\
+				&\text{\qquad}\Rightarrow gcd^{+}(a_1,b_1) = 2 &\\
+				&\text{Take } a_2 = 2, b_2 = 6 &\\
+				&\text{\qquad}\Rightarrow gcd^{+}(a_2,b_2) = 2 &\\
+				&\text{So, } \exists (a_1,b_1),(a_2,b_2) \in \N^2 \text{ such that } gcd^{+}(a_1,b_1) = gcd^{+}(a_2,b_2) \text{ and } (a_1,b_1) \ne (a_2,b_2). &\\
+				&\text{\color{blue}$\therefore gcd^{+}$ is not injective.}&\\ \\
+				\intertext{Checking if $gcd^{+}$ is surjective.}
+				&\text{Take any $d \in \N$.} &\\
+				&\text{We need to prove that $\exists (a,b) \in \N^2$ such that $gcd^{+}(a,b) = d$.} &\\
+				&\text{Let } a=d, b=2d&\\
+				&\text{\qquad}\Rightarrow gcd^{+}(a,b) = gcd^{+}(d, 2d) = d&\\
+				&\text{So, } \forall d \in \N, \exists (a,b) \in \N^2: gcd^{+}(a,b) = d.&
+			\end{flalign*}
+			{\color{blue} $\therefore gcd^{+}$ is surjective.}
+			\clearpage
+			\item[B.3]
+			\begin{enumerate}
+				\item[a]
+				\begin{flalign*}
+					&gcd(a,b) = d&\\
+					&\text{So } a=dk_1,\ b=dk_2;\ gcd(k_1,k_2) = 1 \text{( by definition of gcd)} &\\
+					&\text{\qquad}\Rightarrow a^2=d^2k_1^2, b^2=d^2k_2^2&
+					\intertext{Since $k_1$ and $k_2$ are co-prime ($gcd(k_1, k_2) = 1$),}
+					&gcd(k_1^2, k_2^2) = 1 \text{ (No common factors)}&\\
+					&\Rightarrow gcd(a^2,b^2) = gcd(d^2k_1^2, d^2k_2^2) = d^2gcd(k_1^2,k_2^2) = d^2 &\\
+					&{\color{blue}\therefore gcd(a^2, b^2) = d^2.}&
+				\end{flalign*}
+				\item[b]
+				\begin{flalign*}
+					&\text{Let }gcd(a+b, a-b) = c &\\
+					&\text{\qquad}\Rightarrow a+b = cd,\ a-b = ce;\ gcd(d,e) = 1&
+				\end{flalign*}
+				\begin{tabular}{c c}
+					$cd + ce = (a+b) + (a-b)$ & $cd-ce = (a+b) - (a-b)$\\
+					$c(d + e) = 2a$ & $c(d-e) = 2b$
+				\end{tabular}
+				\begin{flalign*}
+					&\Rightarrow c \text{ is a factor of } 2a \text{ and } 2b &\\
+					& \text{Since } gcd(a,b) = 1 \Rightarrow \ gcd(2a,2b) = 2 &\\
+					& \Rightarrow \text{c is a factor of 2} &\\
+					& \Rightarrow c = 1 \text{ or } 2 & 
+				\end{flalign*}
+				{\color{blue}$\therefore gcd(a+b, a-b) = 1 \text{ or } 2$}
+				\item[c]
+				\begin{flalign*}
+					&\text{Let }gcd(3a+2b, 2a+5b) = c &\\
+					&\text{\qquad}\Rightarrow 3a+2b = cd,\ 2a+5b = ce;\ gcd(d,e) = 1&\\
+					&c(5d-2e) = 11a \text{ and } c(3e-2d) = 11b&\\
+					&\Rightarrow c \text{ is a factor of } 11a \text{ and } 11b &\\
+					& \text{Since } gcd(a,b) = 1 \Rightarrow \ gcd(11a,11b) = 11 &\\
+					& \Rightarrow c\text{ is a factor of 11} &\\
+					& \Rightarrow c = 1 \text{ or } 11 & 
+				\end{flalign*}
+				{\color{blue}$\therefore gcd(3a+2b, 2a+5b) = 1 \text{ or } 11$}
+			\end{enumerate}
+		\end{description}
+	\end{framed}
+	%\end{comment}
+	\clearpage
+	\item[C. [Algebraic Structures : \!\!\!\!  $\mathbf{3 \times 5 = 15\ points.}$\!\!\!]]
+	
+	%\begin{comment}
+	\begin{framed}
+		{\bf Answers}
+		\begin{description}
+			\item[C.1] 
+			\begin{flalign*}
+				\text{Number of binary operations} &= \prod_{(a,b)\in S}(\text{Number of ways to choose $c\in S$ such that $a\star b = c$}) &\\
+				&= \prod_{(a,b)\in S}(n) &\\
+				&= {\color{blue}n^{n^2}} &
+			\end{flalign*}
+			\begin{flalign*}
+			\text{Number of commutative operations} &= \prod_{(a,a)\in S}(n)\cdot\prod_{(a,b)\in S, a<b}(n) \text{\quad[Value for $b\star a = a\star b$]}&\\
+			&= (n)^n \cdot (n)^{\frac{n^2 - n}{2}} &\\
+			&= {\color{blue}n^{\frac{n^2 + n}{2}}} &
+			\end{flalign*}
+			\newpage
+			\item[C.2] $\text{Let the Group be } G = (P(X), \Delta)$
+			\begin{enumerate}
+				\setlength{\itemsep}{5pt}
+				\item[1.] Checking for closure
+				\begin{flalign*}
+					&\text{For } A,B \in P(X) \Rightarrow A,B \subseteq X &\\
+					&\Rightarrow A\backslash B\subseteq X, B\backslash A \subseteq X &\\
+					&\Rightarrow (A\backslash B)\cup(B\backslash A) \subseteq X&\\
+					&\Rightarrow (A\backslash B)\cup(B\backslash A) \in P(X)&\\
+					&\Rightarrow A\Delta B \in P(X) &
+				\end{flalign*}
+				$\therefore \Delta$ is closed. 
+				\item[2.] Checking for associativity
+				\begin{flalign*}
+					&\text{For } A,B,C\in P(X) \Rightarrow A,B,C \subseteq X&\\
+					&\text{Define mutually disjoint sets } a,b,c,x,y,z,t \subseteq X: &\\
+					&\text{\qquad}a = A\backslash (B\cup C),\ b = B\backslash (C\cup A),\ c = C\backslash (A\cup B), &\\
+					&\text{\qquad}x = (A\cap B)\backslash C,\ y = (B\cap C)\backslash A,\ z = (C\cap A)\backslash B,\ t = A\cap B\cap C &\\
+					&\text{So, }A = a\cup x\cup y\cup t,\ B = b\cup x\cup z\cup t,\ C = c\cup y\cup z\cup t&
+				\end{flalign*}
+				\begin{flalign*}
+					\Rightarrow A\Delta B &= ((a\cup x\cup y\cup t)\backslash(b\cup x\cup z\cup t))\cup((b\cup x\cup z\cup t)\backslash(a\cup x\cup y\cup t))&\\ 
+					& = (a\cup y)\cup(b\cup z)&\\
+					& = (a\cup b\cup y\cup z) &
+				\end{flalign*}
+				\begin{flalign*}
+					\Rightarrow (A\Delta B)\Delta C &= ((a\cup b\cup y\cup z)\backslash (c\cup y\cup z\cup t))\cup ((c\cup y\cup z\cup t)\backslash(a\cup b\cup y\cup z))&\\
+					&= a\cup b\cup c\cup t&
+				\end{flalign*}
+				\begin{flalign*}
+					& \text{Similarly, } B\Delta C = (b\cup c\cup x\cup y)&
+				\end{flalign*}
+				\begin{flalign*}
+					\Rightarrow A\Delta (B\Delta C) &= ((a\cup x\cup y\cup t)\backslash(b\cup c\cup x\cup y))\cup((b\cup c\cup x\cup y)\backslash(a\cup x\cup y\cup t))&\\
+					&= a\cup b\cup c\cup t&
+				\end{flalign*}
+				$\Rightarrow (A\Delta B)\Delta C = A \Delta(B\Delta C)$\\
+				$\therefore \Delta$ is associative.
+				\item[3.] Finding identity element 1
+				\begin{flalign*}
+					& A, 1 \in P(X): A\Delta 1 = A&\\
+					& \text{Define mutually disjoint sets } a,b,c \subseteq X:&\\
+					& \text{\qquad} a = A\backslash 1,\ b = 1\backslash A,\ c = A\cap 1 &\\
+					& \text{So, } A = a\cup c,\ 1 = b\cup c &\\
+					& \text{Since } A\Delta 1 = A,&\\
+					& \text{\quad} ((a\cup c)\backslash(b\cup c))\cup((b\cup c)\backslash(a\cup c)) = a\cup c &\\
+					& \text{\quad}\Rightarrow a\cup b = a\cup c &\\
+					& \text{\quad} b = c =\phi \text{ is a solution for this identity.} &
+				\end{flalign*}
+				$\therefore 1 = \phi \text{ exists}$
+				\item[4.] Finding inverse of A
+				\begin{flalign*}
+					&\text{Let } A^{-1} \in G \text{ be the inverse of A } \in G&\\
+					& \text{Define mutually disjoint sets } a,b,c \subseteq X:&\\
+					& \text{\qquad} a = A\backslash A^{-1},\ b = A^{-1}\backslash A,\ c = A\cap A^{-1} &\\
+					& \text{So, } A = a\cup c,\ A^{-1} = b\cup c &\\
+					& \text{Using } A \Delta A^{-1} = 1&\\
+					& ((a\cup c)\backslash(b\cup c))\cup((b\cup c)\backslash(a\cup c)) = \phi&\\
+					& \Rightarrow a\cup b = \phi&\\
+					& \Rightarrow a = b = \phi&\\
+					& \Rightarrow A = A^{-1} = c&
+				\end{flalign*}
+				$\therefore A^{-1} = A$ is the inverse of $A, \forall A \in G$.
+				\item[5.] Checking for commutativity
+				\begin{flalign*}
+					&\text{Take } A, B \in G&\\
+					& \text{Define mutually disjoint sets } a,b,c \subseteq X:&\\
+					& \text{\qquad} a = A\backslash B,\ b = B\backslash A,\ c = A\cap B &\\
+					& \text{So, } A = a\cup c,\ B = b\cup c &
+				\end{flalign*}
+				\begin{flalign*}
+					A \Delta B &= ((a\cup c)\backslash(b\cup c))\cup((b\cup c)\backslash(a\cup c))&\\
+					&= a\cup b&
+				\end{flalign*}
+				\begin{flalign*}
+					\text{And, } B \Delta A &= ((b\cup c)\backslash(a\cup c))\cup ((a\cup c)\backslash(b\cup c))&\\
+					&= b\cup a&\\
+					&= a\cup b&
+				\end{flalign*}
+				$\Rightarrow A\Delta B = B\Delta A$\\
+				$\therefore \Delta$ is commutative.
+			\end{enumerate}
+			{\color{blue}$\therefore G=(P(X), \Delta)$ is a commutative group.}
+			\newpage
+			\item[C.3] Let $\phi(m) = k, \Zstar{m} = \{a_1, a_2\ldots a_k\}$
+			\begin{flalign*}
+				& \text{\quad}\Rightarrow \text{By definition, }gcd(a_i, m) = 1 \ \forall \ i \in [k]&\\
+				& \forall i \in [k],&\\
+				& \forall a \in \Zstar{m},\ gcd(aa_i, m) = 1\text{\qquad} (gcd(a,m)=1 \text{ and } gcd(a_i, m)=1)&\\
+				& \text{Since } \forall x \in \Z{m},\ gcd(x, m) = 1\Rightarrow x \in \Zstar{m} (\text{by definition}) \text{ and } gcd(aa_i,m)=gcd(m, aa_i\%m)&\\
+				& \Rightarrow \exists j \in [k] \text{ such that } aa_i \equiv a_j \Mod{m}&\\
+				& \text{Multiplication by } a \text{ permutes } a_i&\\
+				& \Rightarrow (aa_1)(aa_2)\ldots(aa_k) \equiv (a_1)(a_2)\ldots(a_k) \Mod{m} &\\
+				& \Rightarrow a^k\cdot(a_1)(a_2)\ldots(a_k) \equiv (a_1)(a_2)\ldots(a_k) \Mod{m} &\\
+				& \text{Since } a_i^{-1}\Mod{m} \text{ exists } (gcd(a_i, m) = 1) \text{, multiplying by }(a_1^{-1})(a_2^{-1})\ldots(a_k^{-1}) \Rightarrow a^k \equiv 1 \Mod{m}&
+			\end{flalign*}
+			{\color{blue}$\therefore a^{\phi(m)} \equiv 1\Mod{m}$}
+			\clearpage
+		\end{description}
+	\end{framed}
+	%\end{comment}
+	\clearpage
+	\item[D. [Symmetric Key Encryption+Classical Ciphers : \!\!\!\!  $\mathbf{30\ points.}$\!\!\!]]
+		
+	%\begin{comment}
+	\begin{framed}
+		{\bf Answers}
+		\begin{description}
+			\item[D.1] There are 4 types of adversarial attacks:
+			\begin{itemize}
+				\item[1.] Ciphertext-Only Attack (COA)\\
+				The attacker knows a collection of ciphertexts through which he/she tries to find the encryption key and plaintexts.
+				\item[2.] Known Plaintext Attack (KPA) \\
+				The attacker knows a collection of plaintext-ciphertext pairs and uses them to find the encryption key.
+				\item[3.] Chosen Plaintext Attack (CPA) \\
+				The attacker is able to obtain the corresponding ciphertexts for some chosen plaintexts, to achieve the ultimate goal of finding the encryption key.
+				\item[4.] Chosen Ciphertext Attack (CCA) \\
+				The attacker already has some plaintext-ciphertext pairs and is further able to obtain the corresponding plaintexts for some chosen ciphertexts. The aim is to find the encryption key.
+			\end{itemize}
+			{\color{blue}The weakest one among these is COA and the strongest is CCA.}\\
+			To help against exploitation by CPA and CCA, randomized encryption algorithms are absolutely needed. This makes prior knowledge of plaintext-ciphertext pairs less useful. If the algorithm is deterministic, the attacker can throw some carefully crafted plaintexts(ciphertexts) and obtain the ciphertexts(plaintexts) making it easy to recover the key.
+			\newpage
+			\item[D.2] Finding frequency of characters in $c$ and sorting by it yields:\\
+			\begin{center}
+				\begin{tabular}{|c | c|}
+					\hline
+					letter & frequency \\
+					\hline
+					q & 10\\
+					\hline
+					h & 7\\
+					\hline
+					c & 6\\
+					\hline
+					b & 5\\
+					\hline
+					w & 5\\
+					\hline
+					r & 5\\
+					\hline
+					v & 4 \\
+					\hline
+					n & 3 \\
+					\hline
+					l & 3 \\
+					\hline
+					i & 2 \\
+					\hline
+					d & 2\\
+					\hline
+					j & 1\\
+					\hline
+					a & 1\\
+					\hline
+					s & 1\\
+					\hline
+					e & 1\\
+					\hline
+					z & 1\\
+					\hline
+				\end{tabular}
+			\end{center}
+			It is clear to see that $q$ can be mapped to $e$ since it is most frequent by a significant difference.\\
+			$h$ could be mapped to $t$, the next frequent letter. However, it is seen that $h$ also appears in the middle of a few words, hinting that it is a vowel. So we will map it to $a$, the next frequent vowel.\\
+			$c$ has a high frequency and appears only at ends of words and sometimes in doublets, indicating that it is a consonant and it could be $l$\\
+			Current state after replacing the mappings with uppercase letters : {\it iE ifLL vEEr fb rdE vfccLE nh rdE LfjwAwz Ar bnnbALL AwwAbsEvEbre AwE vAcE}\\
+			On hit and trial, the first two words only make sense if $i$ is replaced by $w$ and then $f$ is mapped to $i$.\\
+			Current state after replacing the mappings with uppercase letters : {\it WE WILL vEEr Ib rdE vIccLE nh rdE LIjwAwz Ar bnnbALL AwwAbsEvEbre AwE vAcE}\\
+			{\it Ar} should be mapped to {\it AT} to make sense. So, $r$ is $t$.\\
+			Doing similar analysis and hit and trials, the plain text comes to be:\\
+			{\color{blue}\it we will meet in the middle of the library at noon all arrangements are made}
+			\newpage
+			\item[D.3] Inverse permutation $\sigma^{-1}(\cdot)$ is:
+			\begin{center}
+				\begin{tabular}{|c | c | c | c | c | c | c|}
+					\hline
+					$y$ & 1 & 2 & 3 & 4 & 5 & 6\\
+					\hline
+					$\sigma^{-1}(y)$ & 4 & 6 & 2 & 3 & 1 & 5\\
+					\hline
+				\end{tabular}
+			\end{center}
+			Computing the permutation matrix $K_\sigma$,\\
+			$K_\sigma = 
+				\begin{bmatrix}
+					0 & 0 & 0 & 1 & 0 & 0\\
+					0 & 0 & 0 & 0 & 0 & 1\\
+					0 & 1 & 0 & 0 & 0 & 0\\
+					0 & 0 & 1 & 0 & 0 & 0\\
+					1 & 0 & 0 & 0 & 0 & 0\\
+					0 & 0 & 0 & 0 & 1 & 0
+				\end{bmatrix}
+			$\\
+			Computing the permutation matrix $K_{\sigma^{-1}}, $\\
+			$K_{\sigma^{-1}} =
+				\begin{bmatrix}
+					0 & 0 & 0 & 0 & 1 & 0\\
+					0 & 0 & 1 & 0 & 0 & 0\\
+					0 & 0 & 0 & 1 & 0 & 0\\
+					1 & 0 & 0 & 0 & 0 & 0\\
+					0 & 0 & 0 & 0 & 0 & 1\\
+					0 & 1 & 0 & 0 & 0 & 0\\
+				\end{bmatrix}
+			$\\
+			Taking blocks of $t=6$\\
+			$m_0 = 
+			\begin{bmatrix}
+				9 & 20 & 9 & 19 & 20 & 18
+			\end{bmatrix}
+			\qquad (itistr)
+			$\\
+			$\Rightarrow c_0 = m_0\cdot K_\sigma =  
+			\begin{bmatrix}
+				9 & 20 & 9 & 19 & 20 & 18
+			\end{bmatrix}
+			\cdot
+			\begin{bmatrix}
+				0 & 0 & 0 & 1 & 0 & 0\\
+				0 & 0 & 0 & 0 & 0 & 1\\
+				0 & 1 & 0 & 0 & 0 & 0\\
+				0 & 0 & 1 & 0 & 0 & 0\\
+				1 & 0 & 0 & 0 & 0 & 0\\
+				0 & 0 & 0 & 0 & 1 & 0
+			\end{bmatrix}
+			=
+			\begin{bmatrix}
+				19\\18\\20\\9\\9\\20
+			\end{bmatrix}
+			$
+			\quad (srtiit)\\
+			$m_1 = 
+			\begin{bmatrix}
+				21 & 5 & 20 & 8 & 1 & 20
+			\end{bmatrix}
+			\qquad (uethat)
+			$\\
+			$\Rightarrow c_1 = m_1\cdot K_\sigma =  
+			\begin{bmatrix}
+				21 & 5 & 20 & 8 & 1 & 20
+			\end{bmatrix}
+			\cdot
+			\begin{bmatrix}
+				0 & 0 & 0 & 1 & 0 & 0\\
+				0 & 0 & 0 & 0 & 0 & 1\\
+				0 & 1 & 0 & 0 & 0 & 0\\
+				0 & 0 & 1 & 0 & 0 & 0\\
+				1 & 0 & 0 & 0 & 0 & 0\\
+				0 & 0 & 0 & 0 & 1 & 0
+			\end{bmatrix}
+			=
+			\begin{bmatrix}
+				8\\20\\5\\20\\21\\1
+			\end{bmatrix}
+			$ 
+			\quad (htetua)\\
+			$\Rightarrow c_2 = m_2\cdot K_\sigma =  
+			\begin{bmatrix}
+				20 & 8 & 9 & 19 & 16 & 18
+			\end{bmatrix}
+			\cdot
+			\begin{bmatrix}
+				0 & 0 & 0 & 1 & 0 & 0\\
+				0 & 0 & 0 & 0 & 0 & 1\\
+				0 & 1 & 0 & 0 & 0 & 0\\
+				0 & 0 & 1 & 0 & 0 & 0\\
+				1 & 0 & 0 & 0 & 0 & 0\\
+				0 & 0 & 0 & 0 & 1 & 0
+			\end{bmatrix}
+			=
+			\begin{bmatrix}
+				19\\18\\8\\9\\20\\16
+			\end{bmatrix}
+			$ 
+			\quad (srhitp)\\
+			$\Rightarrow c_3 =  
+			\begin{bmatrix}
+				15 & 16 & 15 & 19 & 9 & 20
+			\end{bmatrix}
+			\cdot
+			\begin{bmatrix}
+				0 & 0 & 0 & 1 & 0 & 0\\
+				0 & 0 & 0 & 0 & 0 & 1\\
+				0 & 1 & 0 & 0 & 0 & 0\\
+				0 & 0 & 1 & 0 & 0 & 0\\
+				1 & 0 & 0 & 0 & 0 & 0\\
+				0 & 0 & 0 & 0 & 1 & 0
+			\end{bmatrix}
+			=
+			\begin{bmatrix}
+				19\\15\\19\\15\\20\\16
+			\end{bmatrix}
+			$ 
+			\quad (stpooi)\\
+			$\Rightarrow c_4 =  
+			\begin{bmatrix}
+				9 & 15 & 14 & 9 & 19 & 14
+			\end{bmatrix}
+			\cdot
+			\begin{bmatrix}
+				0 & 0 & 0 & 1 & 0 & 0\\
+				0 & 0 & 0 & 0 & 0 & 1\\
+				0 & 1 & 0 & 0 & 0 & 0\\
+				0 & 0 & 1 & 0 & 0 & 0\\
+				1 & 0 & 0 & 0 & 0 & 0\\
+				0 & 0 & 0 & 0 & 1 & 0
+			\end{bmatrix}
+			=
+			\begin{bmatrix}
+				19\\14\\9\\9\\15
+			\end{bmatrix}
+			$ 
+			\quad (inonis)\\
+			$\Rightarrow c_5 =  
+			\begin{bmatrix}
+				15 & 20 & 20 & 18 & 21 & 5
+			\end{bmatrix}
+			\cdot
+			\begin{bmatrix}
+				0 & 0 & 0 & 1 & 0 & 0\\
+				0 & 0 & 0 & 0 & 0 & 1\\
+				0 & 1 & 0 & 0 & 0 & 0\\
+				0 & 0 & 1 & 0 & 0 & 0\\
+				1 & 0 & 0 & 0 & 0 & 0\\
+				0 & 0 & 0 & 0 & 1 & 0
+			\end{bmatrix}
+			=
+			\begin{bmatrix}
+				21\\20\\18\\15\\5\\20
+			\end{bmatrix}
+			$ 
+			\quad (rettou)\\
+			$\therefore$ Ciphertext: {\color{blue}sr ti itht etua srhi tpstpooiino ni sre ttou}\\
+			To decrypt, taking $t=6$\\
+			$m_0 = c_0\cdot K_\sigma^{-1} =
+			\begin{bmatrix}
+				19&1&20&9&9&20
+			\end{bmatrix}
+			\cdot
+			\begin{bmatrix}
+				0 & 0 & 0 & 0 & 1 & 0\\
+				0 & 0 & 1 & 0 & 0 & 0\\
+				0 & 0 & 0 & 1 & 0 & 0\\
+				1 & 0 & 0 & 0 & 0 & 0\\
+				0 & 0 & 0 & 0 & 0 & 1\\
+				0 & 1 & 0 & 0 & 0 & 0\\
+			\end{bmatrix}
+			=
+			\begin{bmatrix}
+				9\\20\\9\\19\\20\\18
+			\end{bmatrix}
+			$
+			\quad (itistr)\\
+			$m_1 = c_1\cdot K_\sigma^{-1} =
+			\begin{bmatrix}
+				8&20&5&20&21&1
+			\end{bmatrix}
+			\cdot
+			\begin{bmatrix}
+				0 & 0 & 0 & 0 & 1 & 0\\
+				0 & 0 & 1 & 0 & 0 & 0\\
+				0 & 0 & 0 & 1 & 0 & 0\\
+				1 & 0 & 0 & 0 & 0 & 0\\
+				0 & 0 & 0 & 0 & 0 & 1\\
+				0 & 1 & 0 & 0 & 0 & 0\\
+			\end{bmatrix}
+			=
+			\begin{bmatrix}
+				21\\5\\20\\8\\1\\20
+			\end{bmatrix}
+			$
+			\quad (uethat)\\
+			$m_2 =
+			\begin{bmatrix}
+				19&18&8&9&20&16
+			\end{bmatrix}
+			\cdot
+			\begin{bmatrix}
+				0 & 0 & 0 & 0 & 1 & 0\\
+				0 & 0 & 1 & 0 & 0 & 0\\
+				0 & 0 & 0 & 1 & 0 & 0\\
+				1 & 0 & 0 & 0 & 0 & 0\\
+				0 & 0 & 0 & 0 & 0 & 1\\
+				0 & 1 & 0 & 0 & 0 & 0\\
+			\end{bmatrix}
+			=
+			\begin{bmatrix}
+				20\\8\\9\\19\\16\\18
+			\end{bmatrix}
+			$
+			\quad (thispr)\\
+			$m_3 =
+			\begin{bmatrix}
+				15\\16\\15\\19\\9\\20
+			\end{bmatrix}
+			$
+			\quad (oposit)\\
+			$m_4 =
+			\begin{bmatrix}
+				9\\15\\14\\9\\19\\14
+			\end{bmatrix}
+			$
+			\quad (ionisn)\\
+			$m_5 =
+			\begin{bmatrix}
+				15\\20\\20\\18\\21\\5
+			\end{bmatrix}
+			$
+			\quad (ottrue)\\
+			$\therefore m =$ {\it it is true that this proposition is not true}\\
+			$\Rightarrow$ Decryption verified.
+			\clearpage
+			\item[D.4] Computing order of $GL_t(\Z{p})$\\
+			Let $A =
+			\begin{bmatrix}
+				v_1 \\ v_2 \\ \vdots \\ v_t
+			\end{bmatrix}
+			\in GL_t(\Z{p}),\ v_i \in \Z{p}^n\ \forall\ i \in [t]$\\
+			Number of ways to choose $v_1 = p^t - 1$ \quad (Excluding zero vector)\\
+			Number of ways to choose $v_2 = p^t - p$ \quad (Excluding multiples of $v_1$)\\
+			\vdots\\
+			Number of ways to choose $v_n = p^t - p^{t-1}$\\
+			Number of ways to choose $A = (p^t - 1)(p^t - p)\ldots(p^t-p^{t-1})$\\
+			{\color{blue}$\therefore$ order of $GL_t(\Z{p}) = (p^t - 1)(p^t - p)\ldots(p^t-p^{t-1})$}\\
+			Order of $GL_2(\Z{26}) = (26^2 - 1)\cdot(26^2-26) = 438750$
+			\begin{flalign*}
+				\text{Number of valid keys with even determinants} &= \text{Number of valid keys with at least 1 even row}&\\
+				&= 2\cdot(13^2 - 1)\cdot(26^2-13^2) + (13^2-1)\cdot(13^2-26)&\\
+				&= 2\cdot168\cdot169 + 168\cdot143&\\
+				&= 194376&
+			\end{flalign*}
+			{\color{blue} There are $194376$ valid keys with even determinants.}\\ \\
+			Computing the number for $GL_2(\Z{p})$
+			\begin{flalign*}
+				\text{Number of valid keys with even determinants} &= \text{Number of valid keys with at least 1 even row}&\\
+				&= 2\cdot(\left\lceil\frac{p}{2}\right\rceil^2 - 1)\cdot(p^2-\left\lfloor\frac{p}{2}\right\rfloor^2) + (\left\lceil\frac{p}{2}\right\rceil^2-1)\cdot(\left\lceil\frac{p}{2}\right\rceil^2-p)&\\
+				&= 2\cdot(\left\lceil\frac{p}{2}\right\rceil^2 - 1)\cdot(p^2-(p - \left\lceil\frac{p}{2}\right\rceil)^2) + (\left\lceil\frac{p}{2}\right\rceil^2-1)\cdot(\left\lceil\frac{p}{2}\right\rceil^2-p)&\\
+				&= 4\cdot p\cdot\left\lceil\frac{p}{2}\right\rceil^3 - \left\lceil\frac{p}{2}\right\rceil^4 - 4\cdot p \cdot\left\lceil\frac{p}{2}\right\rceil - (p-1)\cdot \left\lceil\frac{p}{2}\right\rceil^2 + p&\\
+			\end{flalign*}
+		\end{description}
+	\end{framed}
+	%\end{comment}
+\end{description}
+\end{document}

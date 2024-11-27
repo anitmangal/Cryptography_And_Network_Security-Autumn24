@@ -1,0 +1,200 @@
+\documentclass{article}
+\usepackage{amsmath}				% want AMS fonts
+\usepackage{amssymb}                            % use AMS symbols
+\usepackage{graphicx}
+\usepackage{enumerate,url}
+ %\usepackage[ruled]{algorithm2e}
+\input{p}
+\usepackage{framed} %custom addition
+\newcommand{\Mod}[1]{\ (\mathrm{mod}\ #1)}
+\raggedbottom
+
+\begin{document}
+\raggedbottom
+\homeworksol{3}{{\sf Total:} $50$ points}{11.59 pm, Oct 6, 2024}{Anit Mangal}
+\vspace*{-0.4cm}
+{ \sf \textbf{{\color{red}Note}}: {\color{blue} The basic policies are stated in the course page. Using GPT (or similar tools) to solve problems from the assignment is \textbf{strictly prohibited}. Use of any other (possibly online) source(s) \textbf{must} be clearly stated in the solution. \textbf{Any dishonesty, if caught, will yield zero credits for the entire assignment.}}}\\
+\hrule
+\begin{description}[leftmargin=3pt]
+	\item[A. [Block Ciphers : \!\!\!\! $\mathbf{8 + 10 + (3\times 4) = 30\ points.}$\!\!\!]] 
+	\begin{framed}
+		{\bf Answers}
+		\begin{description}
+			\item[A.1] Bit representation for the S-box:
+			\begin{center}
+				\begin{tabular}{|c|c|c|c||c|c|c|c|}
+					\hline $\mathbf{X_1}$ & $\mathbf{X_2}$ & $\mathbf{X_3}$ & $\mathbf{X_4}$ & $\mathbf{Y_1}$ & $\mathbf{Y_2}$ & $\mathbf{Y_3}$ & $\mathbf{Y_4}$ \\
+					\hline 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \\
+					\hline 0 & 0 & 0 & 1 & 0 & 1 & 0 & 0 \\
+					\hline 0 & 0 & 1 & 0 & 0 & 0 & 1 & 0 \\
+					\hline 0 & 0 & 1 & 1 & 0 & 0 & 0 & 1 \\
+					\hline 0 & 1 & 0 & 0 & 1 & 1 & 0 & 0 \\
+					\hline 0 & 1 & 0 & 1 & 0 & 1 & 1 & 0 \\
+					\hline 0 & 1 & 1 & 0 & 0 & 0 & 1 & 1 \\
+					\hline 0 & 1 & 1 & 1 & 1 & 1 & 0 & 1 \\
+					\hline 1 & 0 & 0 & 0 & 1 & 0 & 1 & 0 \\
+					\hline 1 & 0 & 0 & 1 & 0 & 1 & 0 & 1 \\
+					\hline 1 & 0 & 1 & 0 & 1 & 1 & 1 & 0 \\
+					\hline 1 & 0 & 1 & 1 & 0 & 1 & 1 & 1 \\
+					\hline 1 & 1 & 0 & 0 & 1 & 1 & 1 & 1 \\
+					\hline 1 & 1 & 0 & 1 & 1 & 0 & 1 & 1 \\
+					\hline 1 & 1 & 1 & 0 & 1 & 0 & 0 & 1 \\
+					\hline 1 & 1 & 1 & 1 & 0 & 0 & 0 & 0 \\
+					\hline
+				\end{tabular}
+			\end{center}
+			\pagebreak
+			\begin{flalign*}
+				&\text{For an expression }
+				\mathbf{E} = (\oplus_{i=1}^4\ a_i\mathbf{X_i})\oplus(\oplus_{j=1}^4\ b_j\mathbf{Y_j})&\\
+				& \text{Writing count of $X,Y$ assignments which satisfy } \mathbf{E} = 0 \text{ in LAT}&
+			\end{flalign*}
+			\begin{center}
+				\begin{tabular}{|c||c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+					\hline & \multicolumn{15}{c}{$b$}&\\
+					$a$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & $A$ & $B$ & $C$ & $D$ & $E$ & $F$ \\ \hline
+					\hline 0 & 16 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 8\\
+					\hline 1   & 8 & 10 & 6 & 8 & 10 & 8 & 8 & 6 & 4 & 6 & 6 & 8 & 10 & 8 & 4 & 10\\
+					\hline 2   & 8 & 10 & 8 & 10 & 6 & 8 & 6 & 8 & 6 & 8 & 10 & 4 & 4 & 6 & 8 & 10\\
+					\hline 3   & 8 & 8 & 10 & 10 & 8 & 12 & 10 & 6 & 6 & 6 & 8 & 8 & 10 & 6 & 12 & 8\\
+					\hline 4   & 8 & 10 & 8 & 6 & 8 & 10 & 8 & 6 & 10 & 4 & 10 & 8 & 6 & 8 & 6 & 4\\
+					\hline 5   & 8 & 12 & 6 & 6 & 10 & 10 & 8 & 12 & 6 & 12 & 8 & 8 & 8 & 8 & 10 & 6\\
+					\hline 6   & 8 & 8 & 12 & 8 & 10 & 10 & 6 & 10 & 8 & 8 & 8 & 12 & 6 & 6 & 6 & 10\\
+					\hline 7   & 8 & 6 & 6 & 8 & 12 & 6 & 10 & 8 & 8 & 6 & 6 & 8 & 4 & 6 & 10 & 8\\
+					\hline 8   & 8 & 10 & 10 & 8 & 8 & 6 & 6 & 8 & 10 & 8 & 4 & 6 & 10 & 4 & 8 & 6\\
+					\hline 9   & 8 & 8 & 8 & 12 & 10 & 10 & 6 & 10 & 10 & 6 & 6 & 6 & 8 & 12 & 8 & 8\\
+					\hline $A$ & 8 & 12 & 10 & 10 & 6 & 6 & 12 & 8 & 8 & 8 & 6 & 10 & 6 & 10 & 8 & 8\\
+					\hline $B$ & 8 & 6 & 12 & 6 & 8 & 6 & 8 & 10 & 4 & 6 & 8 & 6 & 8 & 10 & 8 & 6\\
+					\hline $C$ & 8 & 8 & 10 & 10 & 12 & 8 & 10 & 6 & 8 & 12 & 10 & 6 & 8 & 8 & 6 & 6\\
+					\hline $D$ & 8 & 6 & 8 & 6 & 6 & 12 & 10 & 8 & 8 & 10 & 4 & 6 & 6 & 8 & 6 & 8\\
+					\hline $E$ & 8 & 6 & 6 & 12 & 6 & 8 & 8 & 10 & 6 & 8 & 8 & 10 & 8 & 6 & 6 & 4\\
+					\hline $F$ & 8 & 8 & 8 & 8 & 8 & 8 & 12 & 12 & 10 & 6 & 10 & 6 & 10 & 6 & 6 & 10\\
+					\hline
+				\end{tabular}
+			\end{center}
+			\item[A.2] A brute-force attack against single DES takes $2^{56}$ DES encryption calls in the worst case, since the key is 56 bits long.\\
+			Consider DESA, 
+			\begin{equation*}
+				y = \text{DESA}_{K,K'}(x) = \text{DES}_K(x)\oplus K'
+			\end{equation*}
+			If we have 2 valid message-ciphertext pairs $(x_1, y_1)$ and $(x_2, y_2)$ under DESA using key ($K$,$K'$),
+			\begin{flalign*}
+				y_1 \oplus y_2 &= (\text{DES}_K(x_1)\oplus K') \oplus (\text{DES}_K(x_2)\oplus K')\\
+				&= \text{DES}_K(x_1) \oplus \text{DES}_K(x_2)
+			\end{flalign*}
+			We can thus brute-force on $K$ and verify by plugging it into the above equation. This requires $2^{57}$ DES encryption calls in the worst case.\\
+			When we find $K$, we can find $K'$:
+			\begin{flalign*}
+				y_1 = \text{DES}_K(x_1)\oplus K'\\
+				\Rightarrow K' = \text{DES}_K(x_1)\oplus y_1
+			\end{flalign*}
+			This requires one additional call to DES encryption.\\
+			Hence, we would need roughly {\color{blue}$2^{57} + 1$ DES encryption calls} to break DESA encryption using a brute-force attack as compared to roughly {\color{blue}$2^{56}$ encryption calls} to break DES, making it around as difficult to break as DES.
+			\item[A.3] Encrypting $x = 01101\ 11011\ 11010\ 00110$ using E($m_1m_2m_3m_4m_5$) = ($m_2m_5m_4m_1m_3$)
+			\begin{enumerate}
+				\item Mode ECB\\
+				E(01101) = 11001\\
+				E(11011) = 11110\\
+				E(11010) = 10110\\
+				E(00110) = 00101\\
+				Hence, {\color{blue}E(01101 11011 11010 00110) = 11001 11110 10110 00101} with ECB mode
+				\item Mode CBC\\
+				IV = 11001, $x_1$ = 01101 $\Rightarrow$ $y_1$ = E(IV$\oplus x_1$) = E($11001\oplus01101$) = E(10100) = 00011\\
+				$y_1$ = 00011, $x_2$ = 11011 $\Rightarrow$ $y_2$ = E($y_1\oplus x_2$) = E(11000) = 10010\\
+				$y_2$ = 10010, $x_3$ = 11010 $\Rightarrow$ $y_3$ = E($y_2\oplus x_3$) = E(01000) = 10000\\
+				$y_3$ = 10000, $x_4$ = 00110 $\Rightarrow$ $y_4$ = E($y_3\oplus x_4$) = E(10110) = 00111\\
+				Hence, {\color{blue}E(01101 11011 11010 00110) = 00011 10010 10000 00111} with CBC mode
+				\item Mode CFB\\
+				IV = 11001, $x_1$ = 01101 $\Rightarrow$ $z_1$ = E(IV) = E(11001) = 11010 \\
+				$\Rightarrow y_1 = z_1 \oplus x_1 = 11010\oplus 01101 = 10111$\\
+				$x_2$ = 11011 $\Rightarrow$ $z_2$ = E($y_1$) = E(10111) = 01111\\
+				$\Rightarrow y_2 = z_2 \oplus x_2 = 01111\oplus 11011 = 10100$\\
+				$x_3$ = 11010 $\Rightarrow$ $z_3$ = E($y_2$) = E(10100) = 00011\\
+				$\Rightarrow y_3 = z_3 \oplus x_3 = 00011\oplus 11010 = 11001$\\
+				$x_4$ = 00110 $\Rightarrow$ $z_4$ = E($y_3$) = E(11001) = 11010\\
+				$\Rightarrow y_4 = z_4 \oplus x_4 = 11010\oplus 00110 = 11100$\\
+				Hence, {\color{blue}E(01101 11011 11010 00110) = 10111 10100 11001 11100} with CFB mode
+				\item Mode OFB\\
+				IV = 11001, $x_1$ = 01101 $\Rightarrow$ $z_1$ = E(IV) = E(11001) = 11010 \\
+				$\Rightarrow y_1 = z_1 \oplus x_1 = 11010\oplus 01101 = 10111$\\
+				$x_2$ = 11011 $\Rightarrow$ $z_2$ = E($z_1$) = E(11010) = 10110\\
+				$\Rightarrow y_2 = z_2 \oplus x_2 = 10110\oplus 11011 = 01101$\\
+				$x_3$ = 11010 $\Rightarrow$ $z_3$ = E($z_2$) = E(10110) = 00111\\
+				$\Rightarrow y_3 = z_3 \oplus x_3 = 00111\oplus 11010 = 11101$\\
+				$x_4$ = 00110 $\Rightarrow$ $z_4$ = E($z_3$) = E(00111) = 01101\\
+				$\Rightarrow y_4 = z_4 \oplus x_4 = 01101\oplus 00110 = 01011$\\
+				Hence, {\color{blue}E(01101 11011 11010 00110) = 10111 01101 11101 01011} with OFB mode
+			\end{enumerate}
+		\end{description}
+	\end{framed}
+	
+	\item[B. [Cryptographic Hash Functions \& MACs: \!\!\!\!  $\mathbf{(3+4) + (4+3) + (3+3) = 20\ points.}$\!\!\!]] 	
+	\begin{framed}
+		{\bf Answers}
+		\begin{description}
+			\item[B.1] 
+			\begin{enumerate}
+				\item[a)]
+				Failure probability = $\frac{\begin{array}{c}\text{Number of ways to choose $\mathcal{X}_0$}\\\text{$\mathcal{X}_0\bigcap h^{-1}(y) = \Phi$}\end{array}}{\begin{array}{c}\text{Number of ways to choose $\mathcal{X}_0$}\end{array}}$
+				= $\frac{\left( \begin{array}{c}N-s_y \\ q\end{array}\right)}{\left( \begin{array}{c}N \\ q\end{array}\right)}$\\
+				$\Rightarrow$ Success probability ($\epsilon$) = 1 - Failure probability =  1 - $\frac{\left( \begin{array}{c}N-s_y \\ q\end{array}\right)}{\left( \begin{array}{c}N \\ q\end{array}\right)}$
+				\item[b)]
+				$\epsilon_y = 1 - \frac{\left( \begin{array}{c}N-s_y \\ 1\end{array}\right)}{\left( \begin{array}{c}N \\ 1\end{array}\right)} = 1 - \frac{ \begin{array}{c}N-s_y\end{array}}{\begin{array}{c}N\end{array}} = \frac{\begin{array}{c}s_y\end{array}}{\begin{array}{c}N\end{array}}$\\
+				\begin{flalign*}
+				\text{Average success probability} &= \frac{1}{M}\cdot\sum_{y\in \mathcal{Y}}\epsilon_y&\\
+				&=\frac{1}{M}\cdot\sum_{y\in \mathcal{Y}}\frac{s_y}{N} &\\
+				&=\frac{1}{M\cdot N}\sum_{y\in \mathcal{Y}}{s_y}&\\
+				&=\frac{1}{M\cdot N}\cdot N&\\
+				&=\frac{1}{M}
+				\end{flalign*}
+				Hence, {\color{blue}Average success probability = $\frac{1}{M}$}
+			\end{enumerate}
+			\item[B.2]
+			\begin{enumerate}
+				\item[a)]
+				Assume $x \ne x'$, let $h(x) = h(x')$
+				\begin{enumerate}
+					\item[Case 1.] $|x| = |x'| = n$
+					\begin{flalign*}
+						&h(x) = h(x')&\\
+						\Rightarrow\ &0||x = 0||x'&\\
+						\Rightarrow\ &x = x'&
+					\end{flalign*}
+					But we had assumed that $x \ne x'$. This is a contradiction. Hence, $h(x) \ne h(x')$
+					\item[Case 2.] $|x| \ne n, |x'| \ne n$
+					\begin{flalign*}
+						&h(x) = h(x')&\\
+						\Rightarrow\ &1||g(x) = 1||g(x')&\\
+						\Rightarrow\ &g(x) = g(x')&\\
+						\Rightarrow\ &x = x'&\text{($g$ is collision resistant)}
+					\end{flalign*}
+					But we had assumed that $x \ne x'$. This is a contradiction. Hence, $h(x) \ne h(x')$
+					\item[Case 3.] $|x| = n, |x'| \ne n$ (Or $|x| \ne n, |x'| = n$)
+					\begin{flalign*}
+						&h(x) = h(x')&\\
+						\Rightarrow\ &0||x = 1||g(x')&
+					\end{flalign*}
+					This is not possible since the first bit does not match. Hence, $h(x) \ne h(x')$
+				\end{enumerate}
+				Hence, {\color{blue}$h$ is collision-resistant if $g$ is collision-resistant.}
+				\item[b)] Let $y$ be a message digest from $h(x)$.\\
+				So, $|y| = n+1$.\\
+				If $y_0 = 0$, we know that $y = 0 || x$, from definition of $h$\\
+				$\Rightarrow\ x = y_1y_2\dots y_{n+1}$\\
+				For all possible $n+1$-bit digests, half of the digests are such that $y_0 = 0$.\\
+				Hence, {\color{blue}$h$ is not preimage-resistant.}
+			\end{enumerate}
+			\item[B.3] 
+			\begin{enumerate}
+				\item[a)]
+				The MAC tag $x||h_K(x)$ is secure. This is because it does not allow forgery, and does not give information about K.
+				\item[b)] MAC-and-Encrypt should be avoided. This is because:\\
+				Suppose the secure block cipher scheme, CTR, is used. Mallory wants to forge a message $m$. It intercepts a cryptogram $E_K(m_0)||H_K(m_0)$, where $E_K(m_0)$ is of the form $IV||C_0$, $C_0$ is the size of $m_0$. Here, $m_0$ is known and its size assumed to be at least that of $m$.\\
+				Mallory computes $K$ as $C_0\oplus m_0$, which can be truncated to size of $m$.\\
+				Mallory computes $C = m\oplus K$.\\
+				Mallory replaces the cryptogram by $IV||C$, causing a successful forgery.
+			\end{enumerate}
+		\end{description}
+	\end{framed}
+\end{description}
+\end{document}

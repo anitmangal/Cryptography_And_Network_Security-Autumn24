@@ -1,0 +1,157 @@
+\documentclass{article}
+\usepackage{amsmath}				% want AMS fonts
+\usepackage{amssymb}                            % use AMS symbols
+\usepackage{graphicx}
+\usepackage{enumerate,url}
+ %\usepackage[ruled]{algorithm2e}
+\input{p}
+\usepackage{framed} %custom addition
+\newcommand{\Mod}[1]{\ (\mathrm{mod}\ #1)}
+\raggedbottom
+
+\begin{document}
+\raggedbottom
+\homeworksol{2}{{\sf Total:} $40$ points}{11.59 pm, Aug 20, 2024}{Anit Mangal}
+\vspace*{-0.4cm}
+{ \sf \textbf{{\color{red}Note}}: {\color{blue} The basic policies are stated in the course page. Using GPT (or similar tools) to solve problems from the assignment is \textbf{strictly prohibited}. Use of any other (possibly online) source(s) \textbf{must} be clearly stated in the solution. \textbf{Any dishonesty, if caught, will yield zero credits for the entire assignment.}}}\\\vspace*{-0.2cm}
+\hrule
+\begin{description}[leftmargin=*]
+	\item[A. [Perfect Secrecy : \!\!\!\!  $\mathbf{4 \times 4 = 16\ points.}$\!\!\!]]
+	
+	\begin{framed}
+		{\bf Answers}
+		\begin{description}
+			\item[A.1] 
+			Assuming perfect secrecy holds if for \textbf{any} probability distribution over $\mathbf{M}$ and $\mathbf{K}$, every ciphertext $\mathsf{C} \in \mathbf{C}$ and every message $\mathsf{M_1, M_2} \in \mathbf{M}$:
+			\begin{flalign}
+				\Pr[M_R = \mathsf{M_1} | C_R = \mathsf{C}] = \Pr[M_R = \mathsf{M_2} | C_R = \mathsf{C}]
+			\end{flalign}
+			Since perfect secrecy holds,
+			\begin{align*}
+				\Pr[M_R = \mathsf{M_1} | C_R = \mathsf{C}] &= \Pr[M_R = \mathsf{M_1}]\\
+				\Rightarrow \Pr[M_R = \mathsf{M_1}] &= \Pr[M_R = \mathsf{M_2}] \text{\qquad\qquad(From (1))}
+			\end{align*}
+			But, our assumption is that perfect secrecy would hold for any probability distribution. This contradicts our assumption. So, our assumption is wrong.\\
+			{\color{blue}Hence, $\Pr[M_R = \mathsf{M_1} | C_R = \mathsf{C}] = \Pr[M_R = \mathsf{M_2} | C_R = \mathsf{C}]$ does not imply perfect secrecy.}
+			\item[A.2] 
+			$\forall \ \mathsf{C_1},\mathsf{C_2}\in\mathbf{C}$
+			\begin{flalign*}
+				\Pr[\mathbf{C}_R = \mathsf{C_1}] &= \sum_{\mathsf{K}\in\mathbf{K}}\Pr[\mathbf{K}_R = \mathsf{K}]\Pr[\mathbf{M}_R = D_\mathsf{K}(\mathsf{C_1})]&\text{(Total Probability)}&\\
+				&=\sum_{\mathsf{K}\in\mathbf{K}}\frac{1}{|\mathbf{K}|}\Pr[\mathbf{M}_R = D_\mathsf{K}(\mathsf{C_1})]&\text{(Using Shannon's Theorem)}&\\
+				&=\frac{1}{|\mathbf{K}|}\sum_{\mathsf{K}\in\mathbf{K}}\Pr[\mathbf{M}_R = D_\mathsf{K}(\mathsf{C_1})]&
+				\intertext{Using Shannon's Theorem, for every $\mathsf{M}\in\mathbf{M}$ and for every $\mathsf{C}\in\mathbf{C}$, there is a unique key $\mathsf{K}$ such that $E_\mathsf{K}(\mathsf{M}) = \mathsf{C}$. So, for every $\mathsf{K}\in\mathbf{K}$ and for every $\mathsf{C}\in\mathbf{C}$, there is a unique plaintext $\mathsf{M}$ such that $E_\mathsf{K}(\mathsf{M}) = \mathsf{C}$. And since $|\mathbf{K}| = |\mathbf{M}|$, every $\mathsf{M}$ is utilised if every $\mathsf{K}$ is utilised.}
+				&=\frac{1}{|\mathbf{K}|}\sum_{\mathsf{M}\in\mathbf{M}}\Pr[\mathbf{M}_R = \mathsf{M}]&\\
+				&=\frac{1}{|\mathbf{K}|}&\\
+			\end{flalign*}
+			Similiarly,
+			\begin{flalign*}
+				&\Pr[\mathbf{C}_R = \mathsf{C_2}] =\frac{1}{|\mathbf{K}|} = \Pr[\mathbf{C}_R = \mathsf{C_1}]&
+			\end{flalign*}
+			{\color{blue}$\therefore$ Every ciphertext is  equally probable.}
+			\item[A.3] For Affine Cipher, $\mathsf{K}=(a,b): gcd(a, 26) = 1$\\
+			For any  $y \in \Z{26}$,
+			\begin{flalign*}
+				\Pr[\mathbf{C}_R = y] &= \sum_{\mathsf{K} \in \Zstar{26}\times\Z{26}}\Pr[\mathbf{K}_R = \mathsf{K}]\Pr[x=D_\mathsf{K}(y)]&\\
+				&=\frac{1}{312}\sum_{\mathsf{K} \in \Zstar{26}\times\Z{26}}\Pr[x=a^{-1}(y-b)\Mod{26}]& \text{(Key is sampled uniformly at random)}&\\
+				&=\frac{1}{312}\sum_{\mathsf{K} \in \Zstar{26}\times\Z{26}}\frac{1}{26}&\\
+				&=\frac{1}{312}\cdot\frac{312}{26}&\\
+				&=\frac{1}{26}&
+			\end{flalign*}
+			Now, $\forall x,y \in \Z{26}$,
+			\begin{flalign*}
+				\Pr[\mathbf{C}_R = y | \mathbf{M}_R = x]&= \Pr[\mathbf{K}_R = (a,b): y = ax+b\Mod{26}]&\\
+				&=\frac{1}{26}&\text{(For an $a$, there is a fixed $b\in \Z{26}$)}&
+			\end{flalign*}
+			{\color{blue} Since $\Pr[\mathbf{C}_R = y | \mathbf{M}_R = x] = \Pr[\mathbf{C}_R = y]$, Affine Cipher achieves perfect secrecy when keys are sampled uniformly at random}
+			\item[A.4] For any $y \in \{0,1\}^n$,
+			\begin{flalign*}
+				\Pr[\mathbf{C}_R = y] &= \sum_{\mathsf{K} \in \{0,1\}^n\backslash0^n}\Pr[\mathbf{K}_R = \mathsf{K}]\Pr[x=D_\mathsf{K}(y)]&\\
+				&=\frac{1}{2^n - 1}\sum_{\mathsf{K} \in \{0,1\}^n\backslash0^n}\Pr[x=y\oplus \mathsf{K}] &\text{(Key is sampled uniformly at random)}\\
+				&=\frac{1}{2^n - 1}\sum_{\mathsf{K} \in \{0,1\}^n\backslash0^n}\frac{1}{2^n}&\\
+				&=\frac{1}{2^n - 1}\cdot\frac{1}{2^n}\cdot(2^n-1)&\\
+				&=\frac{1}{2^n}
+			\end{flalign*}
+			Now, $\forall x,y \in \{0,1\}^n$,
+			\begin{flalign*}
+				\Pr[\mathbf{C}_R = y | \mathbf{M}_R = x]&= \Pr[\mathbf{K}_R = \mathsf{K}: y = x\oplus \mathsf{K}]&\\
+				&=\Pr[\mathbf{K}_R = \mathsf{K}: \mathsf{K} = x\oplus y]&\\
+				&=\frac{1}{2^n-1}
+			\end{flalign*}
+			{\color{blue} $\therefore$Since $\Pr[\mathbf{C}_R = y | \mathbf{M}_R = x] \neq \Pr[\mathbf{C}_R = y]$, the scheme is not perfectly secure.}
+		\end{description}
+	\end{framed}
+	
+	\item[B. [Entropy : \!\!\!\!  $\mathbf{4 + (4\times 2) + (4\times 2) + (3+1) = 24\ points.}$\!\!\!]]
+	
+	\begin{framed}
+		{\bf Answers}
+		\begin{description}
+			\item[B.1] We know that,
+			\begin{flalign*}
+				&H(\mathbf{K}_R, \mathbf{M}_R, \mathbf{C}_R) = H(\mathbf{K}_R, \mathbf{M}_R) = H(\mathbf{K}_R) + H(\mathbf{M}_R) &
+				\intertext{And, by theorem}
+				&H(\mathbf{K}_R|\mathbf{C}_R) = H(\mathbf{K}_R)+H(\mathbf{M}_R)-H(\mathbf{C}_R)&
+			\end{flalign*}
+			Using $H(X|Y) = H(X)-H(Y)$,
+			\begin{flalign*}
+				H(\mathbf{K}_R|\mathbf{C}_R) - H(\mathbf{M}_R|\mathbf{C}_R) &= H(\mathbf{K}_R) + H(\mathbf{M}_R) - H(\mathbf{C}_R) - H(\mathbf{M}_R|\mathbf{C}_R)&\\
+				&= H(\mathbf{K}_R, \mathbf{M}_R, \mathbf{C}_R)- H(\mathbf{C}_R) - H(\mathbf{M}_R|\mathbf{C}_R)&\\
+				&= H(\mathbf{K}_R, \mathbf{M}_R, \mathbf{C}_R)-H(\mathbf{M}_R,\mathbf{C}_R)&\\
+				&= H(\mathbf{K}_R|\mathbf{M}_R,\mathbf{C}_R) \ge 0&
+			\end{flalign*}
+			{\color{blue}$\therefore H(\mathbf{K}_R|\mathbf{C}_R) \ge H(\mathbf{M}_R|\mathbf{C}_R)$}
+			\item[B.2] Since messages and keys are equiprobable, $\Pr(\mathbf{M}_R=\mathsf{M}) = \frac{1}{26}\ \forall \mathsf{M} \in \Z{26}$ and $\Pr(\mathbf{K}_R=\mathsf{K}) = \frac{1}{312}\ \forall \mathsf{K} \in \Zstar{26}\times\Z{26})$. So $\Pr(\mathbf{C}_R = \mathsf{C}) = \frac{1}{26}\ \forall \mathsf{C} \in \Z{26}$.
+			\begin{flalign*}
+				H(\mathbf{K}_R) &= \sum_{\mathsf{K}\in\Zstar{26}\times\Z{26}}\Pr(\mathbf{K}_R = \mathsf{K})\cdot\log_2\frac{1}{\Pr(\mathbf{K}_R = \mathsf{K})}&\\
+				&=\sum_{\mathsf{K}\in\Zstar{26}\times\Z{26}}\frac{1}{312}\cdot\log_2312&\\
+				&=\log_2312&\\
+				&=8.285\text{ (approx)}&\\
+				H(\mathbf{M}_R) &= \log_226&\\
+				&=4.7\text{ (approx)}&\\
+				H(\mathbf{C}_R) &=4.7\text{ (approx)}&
+			\end{flalign*}
+			\begin{flalign*}
+				H(\mathbf{K}_R|\mathbf{C}_R) &= H(\mathbf{K}_R) + H(\mathbf{M}_R) - H(\mathbf{C}_R)& \text{(Using Theorem)}&\\
+				&= \log_2312 = 8.285\text{ (approx)}&
+			\end{flalign*}
+			{\color{blue}$\therefore H(\mathbf{K}_R|\mathbf{C}_R) = 8.285$}
+			\begin{flalign*}
+				H(\mathbf{M}_R,\mathbf{C}_R) &=\sum_{\mathsf{C}\in\Z{26}}\sum_{\mathsf{M}\in\Z{26}}Pr(\mathbf{C}_R = \mathsf{C},\mathbf{M}_R = \mathsf{M})\cdot\log_2\frac{1}{Pr(\mathbf{C}_R = \mathsf{C},\mathbf{M}_R = \mathsf{M})} &\\
+				&= \sum_{\mathsf{K}\in\Zstar{26}\times\Z{26}}\Pr(\mathbf{K}_R = \mathsf{K})\cdot\log_2\frac{1}{\Pr(\mathbf{K}_R = \mathsf{K})}\text{\qquad\qquad($\mathsf{C}=E_\mathsf{K}(\mathsf{M})$ for some $\mathsf{K}\in\mathbf{K}$)}&\\
+				&= H(\mathbf{K}_R) &\\
+				&= \log_2312&
+			\end{flalign*}
+			\begin{flalign*}
+				H(\mathbf{K}_R|\mathbf{M}_R,\mathbf{C}_R) &= H(\mathbf{K}_R,\mathbf{M}_R,\mathbf{C}_R)-H(\mathbf{M}_R,\mathbf{C}_R)&\\
+				&= H(\mathbf{K}_R)+H(\mathbf{M}_R)-H(\mathbf{K}_R)&\\
+				&= \log_226&\\
+				&= 4.7 \text{ (approx)}&
+			\end{flalign*}
+			{\color{blue}$\therefore H(\mathbf{K}_R|\mathbf{M}_R,\mathbf{C}_R) = 4.7$}
+			\item[B.3] 
+			\begin{itemize}
+				\item $f(x) = 7^x$
+					\begin{flalign*}
+						H(\mathbf{R}) &= \sum_{\mathsf{R}\in R}\Pr(\mathbf{R}=\mathsf{R})\cdot\log_2\frac{1}{\Pr(\mathbf{R}=\mathsf{R})}&\\
+						&\ge\sum_{x\in D}\Pr(\mathbf{R}=7^x)\cdot\log_2\frac{1}{\Pr(\mathbf{R}=7^x)}&\text{($f(D)\subseteq R$)}&\\
+						&=\sum_{x\in D}\Pr(\mathbf{D}=x)\cdot\log_2\frac{1}{\Pr(\mathbf{D}=x)}&\\
+						&=H(\mathbf{D})&
+					\end{flalign*}
+					{\color{blue}$\therefore H(\mathbf{R}) \ge H(\mathbf{D})$}
+			\end{itemize}
+			\item[B.4] Let $\underset{z\in Z}{\min} \log_2 \frac{1}{\Pr(\mathbf{Z} = z)} = k$
+			\begin{flalign*}
+				H(\mathbf{Z}) &= \sum_{z\in Z}\Pr(\mathbf{Z}=z)\cdot\log_2\frac{1}{\Pr(\mathbf{Z}=z)}&\\
+				&\ge\sum_{z\in Z}\Pr(\mathbf{Z}=z)\cdot k&\left(\log_2 \frac{1}{\Pr(\mathbf{Z} = z)} \ge \underset{z_1\in Z}{\min} \log_2 \frac{1}{\Pr(\mathbf{Z} = z_1)} \forall z \in Z\right)&\\
+				&=k\cdot\sum_{z\in Z}\Pr(\mathbf{Z}=z)&\\
+				&=k = \underset{z\in Z}{\min} \log_2 \frac{1}{\Pr(\mathbf{Z} = z)} &\\
+				&= -\log_2\left(\underset{z\in Z}{max}\Pr(\mathbf{Z} = z)\right) = H_\infty(\mathbf{Z})&
+			\end{flalign*}
+			{\color{blue}$\therefore H(\mathbf{Z}) \ge H_\infty(\mathbf{Z}) \ge 0$}\\
+			$H(\mathbf{Z}) = H_\infty(\mathbf{Z})$ when $-\log_2\left(\underset{z\in Z}{max}\Pr(\mathbf{Z} = z)\right) = -\log_2\left(\Pr(\mathbf{Z} = z_1)\right) \forall z_1 \in Z$\\
+			$\Rightarrow \underset{z\in Z}{max}\Pr(\mathbf{Z} = z) = \Pr(\mathbf{Z} = z_1) \forall z_1 \in Z$\\
+			{\color{blue}$\therefore$ If $\mathbf{Z}$ has a uniform distribution, $H(\mathbf{Z}) = H_\infty(\mathbf{Z})$.}
+		\end{description}
+	\end{framed}
+\end{description}
+\end{document}

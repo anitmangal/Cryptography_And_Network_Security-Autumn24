@@ -1,0 +1,228 @@
+\documentclass{article}
+\usepackage{amsmath}				% want AMS fonts
+\usepackage{amssymb}                            % use AMS symbols
+\usepackage{graphicx}
+\usepackage{enumerate,url}
+ %\usepackage[ruled]{algorithm2e}
+\input{p}
+\usepackage{framed} %custom addition
+\newcommand{\Mod}[1]{\ (\mathrm{mod}\ #1)}
+\raggedbottom
+
+\begin{document}
+\raggedbottom
+\homeworksol{4}{{\sf Total:} $50$ points}{11.59 pm, Nov 07, 2024}{Anit Mangal}
+\vspace*{-0.4cm}
+{ \sf \textbf{{\color{red}Note}}: {\color{blue} The basic policies are stated in the course page. Using GPT (or similar tools) to solve problems from the assignment is \textbf{strictly prohibited}. Use of any other (possibly online) source(s) \textbf{must} be clearly stated in the solution. \textbf{Any dishonesty, if caught, will yield zero credits for the entire assignment.}}}\\
+\hrule
+\begin{description}[leftmargin=3pt]
+	\item[A. [RSA and Primality Tests : \!\!\!\! $\mathbf{10 + 5+5 = 20\ points.}$\!\!\!]] 
+	\begin{framed}
+		{\bf Answers}
+		\begin{description}
+			\item[A.1] We have $ed \equiv 1 \Mod{\lambda(n)}$\\
+			\begin{flalign*}
+				\lambda(n) &= \frac{\Phi(n)}{gcd(p-1,q-1)} &\\
+				&= \frac{(p-1)(q-1)}{gcd(p-1,q-1)}&\\
+				&= lcm(p-1,q-1) &[gcd(a,b)\times lcm(a,b) = a\times b]
+			\end{flalign*}
+			$\text{So, } \lambda(n) = k_1(p-1) \text{ and } \lambda(n) = k_2(q-1)$
+			\begin{flalign*}
+				\text{Since } &ed \equiv 1 \Mod{\lambda(n)},&\\
+				& ed = t_1k_1(p-1) + 1 \text{ and } ed = t_2k_2(q-1) + 1&
+			\end{flalign*}
+			Now, decrypting ciphertext $c$,
+			\begin{flalign*}
+				c^d &\equiv \left(m^{e}\right)^d \Mod{n}&\\
+				&\equiv m^{ed} \Mod{n}&
+			\end{flalign*}
+			We need to prove that $m^{ed} \equiv m \Mod{n}$. By Chinese Remainder Theorem, it suffices to show that $m^{ed} \equiv m \Mod{p}$ and $m^{ed} \equiv m \Mod{q}$.\\ \\
+			Case 1: $m$ and $p$ are not co-prime.\\
+			Since $p$ is prime, $m = rp$.\\
+			So, $m \equiv 0\Mod{p}$ and $m^{ed} \equiv 0\Mod{p}$\\
+			$\therefore m^{ed} \equiv m \Mod{p}$\\ \\
+			Case 2: $m$ and $p$ are co-prime.
+			\begin{flalign*}
+				m^{ed}& \equiv m^{t_1k_1(p-1) + 1} \Mod{p}&\\
+				&\equiv \left(m^{p-1}\right)^{t_1k_1} m \Mod{p}&\\
+				&\equiv 1^{t_1k_1}m\Mod{p}&\text{[By Fermat's Theorem]}\\
+				&\equiv m\Mod{p}&
+			\end{flalign*}
+			$\therefore m^{ed} \equiv m \Mod{p}$\\
+			Similarly, $m^{ed} \equiv m \Mod{q}$\\
+			{\color{blue} $\therefore m^{ed} \equiv m \Mod{n}$, which means encryption and decryption are still inverse operations.}
+			\item[A.2a] We have $G(n) = \left\{a:a\in\Zstar{n}, \left(\frac{a}{n}\right)\equiv a^\frac{(n-1)}{2}\Mod{n}\right\}$\\
+			First, we prove that $b\in G(n)\Rightarrow b^{-1} \in G(n)$.
+			\begin{flalign*}
+				\left(\frac{b}{n}\right)\left(\frac{b^{-1}}{n}\right) &= \left(\frac{b.b^{-1}}{n}\right)&\text{[Multiplicative Property of Jacobi symbol]}\\
+				&= \left(\frac{1}{n}\right) &\\
+				&= 1&\text{[Property of Jacobi Symbol]}
+			\end{flalign*}
+			Since Jacobi symbol can only take values -1, 0 and 1,
+			\begin{flalign}
+				&\Rightarrow \left(\frac{b}{n}\right) = \left(\frac{b^{-1}}{n}\right) &
+			\end{flalign}
+			\begin{flalign*}
+				\text{Now, } b^{\frac{(n-1)}{2}}.\left(b^{-1}\right)^{\frac{(n-1)}{2}} &\equiv \left(b.b^{-1}\right)^{\frac{(n-1)}{2}}\Mod{n}&\\
+				&\equiv 1^{\frac{(n-1)}{2}}\Mod{n}&\\
+				&\equiv 1\Mod{n}&
+			\end{flalign*}
+			Also, $gcd(b,n) = 1 \Rightarrow gcd(b^{-1}, n)=1$\\
+			So, $b^{n-1}\equiv 1\Mod{n}$ and $\left(b^{-1}\right)^{n-1}\equiv 1\Mod{n}$ (Fermat's Theorem)\\
+			So, $b^{\frac{(n-1)}{2}}\equiv 1 \text{ or } -1\Mod{n}$. Same for $b^{-1}$
+			\begin{flalign}
+				&\Rightarrow b^{\frac{(n-1)}{2}} \equiv \left(b^{-1}\right)^{\frac{(n-1)}{2}} \Mod{n}&\\
+				&\text{Also }\left(\frac{b}{n}\right)\equiv b^\frac{(n-1)}{2}\Mod{n}&
+			\end{flalign}
+			From (1), (2) and (3),
+			\begin{flalign*}
+				&\Rightarrow \left(\frac{b^{-1}}{n}\right)\equiv \left(\frac{b}{n}\right) \equiv b^{\frac{(n-1)}{2}} \equiv \left(b^{-1}\right)^\frac{(n-1)}{2}\Mod{n}&
+			\end{flalign*}
+			$\therefore b\in G(n)\Rightarrow b^{-1}\in G(n)$\\
+			So, $\forall a, b \in G(n)$,\\
+			$\left(\frac{a}{n}\right)\equiv a^{\frac{(n-1)}{2}}\Mod{n}$ and $\left(\frac{b^{-1}}{n}\right)\equiv \left(b^{-1}\right)^{\frac{(n-1)}{2}}\Mod{n}$\\
+			$\Rightarrow \left(\frac{a.b^{-1}}{n}\right)\equiv \left(a.b^{-1}\right)^{\frac{(n-1)}{2}}\Mod{n}$\\
+			$\therefore (a.b^{-1}) \in G(n)$\\
+			So, $G(n)$ is a subgroup of $\Zstar{n}$.\\
+			Using Lagrange's theorem, $|G(n)|$ divides $|\Zstar{n}|$.\\
+			{\color{blue} $\therefore\ |G(n)| \leq \frac{|\Zstar{n}|}{2} \leq \frac{(n-1)}{2}$.}
+			\clearpage
+			\item[A.2b] We have $n = p^kq$ and $a = 1+p^{k-1}q$\\
+			Let $t = \frac{(n-1)}{2}$. Since $n$ is odd (p and q are odd), $t \in \N$.
+			\begin{flalign*}
+				a^{\frac{(n-1)}{2}}&\equiv \left(1+p^{k-1}q\right)^t\Mod{n}&\\
+				&\equiv 1 + {t\choose 1}(p^{k-1}q) + \dots + {t\choose t}\left(p^{k-1}q\right)^t\Mod{n}&\text{[Binomial Theorem]}\\
+				&\equiv 1 + t(p^{k-1}q)\Mod{n}&[n | \left(p^{k-1}q\right)^t\ \forall t \geq 2]\\
+				&\equiv 1 + (n-1)(2^{-1})(p^{k-1}q)\Mod{n}&\\
+				&\equiv 1 - (p^{k-1}q)(2^{-1})\Mod{n}&\\
+				&\equiv 1 + p^{k-1}q\Mod{n}&\\
+				&\equiv a\Mod{n}&
+			\end{flalign*}
+			Now,
+			\begin{flalign*}
+				\left(\frac{a}{n}\right) &= \left(\frac{a}{p}\right)^k\left(\frac{a}{q}\right)&\text{[Property of Jacobi symbol]}\\
+				&= \left(\frac{a}{q}\right)&[a \equiv 1\Mod{p}]\\
+				&= 1&[a \equiv 1\Mod{q}]
+			\end{flalign*}
+			Since, $a = 1+p^{k-1}q \not\equiv 1\Mod{n}$,\\
+			{\color{blue}$\therefore \left(\frac{a}{n}\right)\not\equiv a^{\frac{(n-1)}{2}}$.}
+		\end{description}
+	\end{framed}
+	\clearpage
+	\item[B. [ElGamal Encryption and Diffie-Hellman Problems: \!\!\!\! $\mathbf{10 + 10 = 20\ points.}$\!\!\!]] 
+	\begin{framed}
+		{\bf Answers}
+		\begin{description}
+			\item[B.1] Assume that the same ephemeral secret $k$ is used to encrypt $m_1$ and $m_2$ to ($c_{11},c_{12}$) and ($c_{21},c_{22}$) respectively, using generator $g$ on prime $p$, and the attacker knows the message $m_1$.
+			\begin{flalign*}
+				c_{12} &\equiv m_1 e^k \Mod{p}&\\
+				&\equiv m_1 g^{dk}\Mod{p}&\\
+				\Rightarrow c_{12} m_2 &\equiv m_1 m_2 g^{dk}\Mod{p}&\\
+				\text{Also, } c_{22} &\equiv m_2 e^k \Mod{p}&\\
+				&\equiv m_2 g^{dk}\Mod{p}&\\
+				\Rightarrow c_{22} m_1 &\equiv m_1 m_2 g^{dk}\Mod{p}&
+			\end{flalign*}
+			So, $c_{12} m_2 \equiv c_{22} m_1\Mod{p}$ and hence, $m_2 \equiv c_{22}m_1{c_{12}}^{-1}\Mod{p}$.\\
+			{\color{blue} $\therefore$ With $m_1$ known, the attacker can obtain $m_2$ if the same ephemeral secret is used to encrypt both of them.}
+			\clearpage
+			\item[B.2] We have $E_i \equiv g^{x_i}h_i^r\Mod{p}$ and $h_i = h^{t_i}g^{s_i}, \forall i \in [l]$
+			\begin{flalign*}
+				\Rightarrow E_i &\equiv g^{x_i}\left(h^{t_i}g^{s_i}\right)^r\Mod{p}&\\
+				&\equiv g^{x_i}\left(h^{rt_i}g^{rs_i}\right)\Mod{p}&\\
+				&\equiv g^{x_i + rs_i}h^{rt_i}\Mod{p}&
+			\end{flalign*}
+			We are given $p, C, D, \{E_1, E_2, \dots, E_l\}, \vec{\textbf{y}}, s_{\vec{\textbf{y}}}, t_{\vec{\textbf{y}}}$.\\
+			Now, to decrypt, compute $m' := \left(\prod\limits_{i=1}^{l}E_{i}^{y_i}\right).\left(C^{s_{\vec{\textbf{y}}}}.D^{t_{\vec{\textbf{y}}}}\right)^{-1}\Mod{p}$
+			\begin{flalign*}
+				\left(\prod\limits_{i=1}^{l}E_{i}^{y_i}\right).\left(C^{s_{\vec{\textbf{y}}}}.D^{t_{\vec{\textbf{y}}}}\right)^{-1} &\equiv \left(\prod\limits_{i=1}^{l}\left(g^{x_i + rs_i}h^{rt_i}\right)^{y_i}\right).\left(\left(g^r\right)^{s_{\vec{\textbf{y}}}}.\left(h^r\right)^{t_{\vec{\textbf{y}}}}\right)^{-1}\Mod{p}&\\
+				&\equiv \left(\prod\limits_{i=1}^{l}g^{x_iy_i + ry_is_i}h^{ry_it_i}\right).\left(g^{rs_{\vec{\textbf{y}}}}.h^{rt_{\vec{\textbf{y}}}}\right)^{-1}\Mod{p}&\\
+				&\equiv\left(g^{\sum_{i=1}^{l}\left(x_iy_i + ry_is_i\right)}h^{\sum_{i=1}^{l}ry_it_i}\right).\left(g^{\sum_{i=1}^{l}rs_iy_i}.h^{\sum_{i=1}^{l}rt_iy_i}\right)^{-1}\Mod{p} &\\
+				&\equiv g^{\sum_{i=1}^{l}\left(x_iy_i\right)}\left(g^{\sum_{i=1}^{l}ry_is_i}h^{\sum_{i=1}^{l}ry_it_i}\right).\left(g^{\sum_{i=1}^{l}rs_iy_i}.h^{\sum_{i=1}^{l}rt_iy_i}\right)^{-1}\Mod{p}&\\
+				&\equiv g^{\sum_{i=1}^{l}\left(x_iy_i\right)}\Mod{p}&\\
+				&\equiv g^{\langle\vec{\textbf{x}},\vec{\textbf{y}}\rangle}\Mod{p}&\\
+			\end{flalign*}
+			{\color{blue}
+			So, $\left(\prod\limits_{i=1}^{l}E_{i}^{y_i}\right).\left(C^{s_{\vec{\textbf{y}}}}.D^{t_{\vec{\textbf{y}}}}\right)^{-1}$ yields $g^{\langle\vec{\textbf{x}},\vec{\textbf{y}}\rangle}\Mod{p}$}
+		\end{description}
+	\end{framed}
+	\clearpage
+	\item[C. [Elliptic Curves: \!\!\!\! $\mathbf{5 + 5 = 10\ points.}$\!\!\!]] 
+	\begin{framed}
+		{\bf Answers}
+		\begin{description}
+			\item[C.1] For curve $y^2 \equiv x^3 + 2x + 2$ over $\Z{17}$,
+			\begin{flalign*}
+				\text{Discriminant }\Delta &\equiv -16(4a^3+27b^2) \Mod{17}&(\text{For curve }y^2=x^3+ax+b)\\
+				&\equiv -16.(4.{2}^3 + 27.{2}^2)\Mod{17}&\\
+				&\equiv -16.(15 + 6)\Mod{17}&\\
+				&\equiv -16.4\Mod{17}&\\
+				&\equiv -13\Mod{17}&\\
+				&\equiv 4\Mod{17}&
+			\end{flalign*}
+			{\color{blue}$\therefore$ Discriminant is $4\Mod{17}$.}\\
+			$P = (13,7), Q = (6,3)$\\
+			\begin{flalign*}
+				\text{Slope }\lambda &\equiv (y_2-y_1).(x_2-x_1)^{-1}\Mod{17}& (\text{Line at points }(x_1,y_1),(x_2,y_2))\\
+				&\equiv (3-7).(6-13)^{-1}\Mod{17}&\\
+				&\equiv 13.(-7)^{-1}\Mod{17}&\\
+				&\equiv 13.(10)^{-1}\Mod{17}&\\
+				&\equiv 13.12\Mod{17}&(10.12 \equiv 1\Mod{17})\\
+				&\equiv 3\Mod{17}&
+			\end{flalign*}
+			Equation of line through P and Q is $y\equiv 3.x + 3 - 3.6 \equiv 3.x + 2$ over $\Z{17}$\\
+			Finding intersection point R($x_3,y_3$) of the line with the curve.
+			\begin{flalign*}
+				&(3x+2)^2 \equiv x^3+2x+2&\\
+				\Rightarrow&9x^2 + 12x + 4\equiv x^3+2x+2&\\
+				\Rightarrow&x^3+8x^2+7x+15\equiv 0&
+			\end{flalign*}
+			$\Rightarrow x_3 = -8-13-6\Mod{17} = 7\Mod{17}$\\
+			Using equation of line, $y_3 = 3.7 + 2\Mod{17} = 6\Mod{17}$. The required point has $y = -6\Mod{17} = 11\Mod{17}$.\\
+			{\color{blue}So, point $P+Q = (7,11)$.}
+			\clearpage
+			\item[C.2] $E: y^2 \equiv x^3 + 3x + 2$ over $\Z{7}$. Finding points
+			\begin{flalign*}
+				x = 0&\Rightarrow y^2 \equiv 2\Mod{7}\Rightarrow y=4\Mod{7} \text{ \& } y=3\Mod{7}&\\
+				x = 1&\Rightarrow y^2 \equiv 6\Mod{7}\text{(No solution)}&\\
+				x = 2&\Rightarrow y^2 \equiv 2\Mod{7}\Rightarrow y=4\Mod{7} \text{ \& } y=3\Mod{7}&\\
+				x = 3&\Rightarrow y^2 \equiv 3\Mod{7}\text{(No solution)}&\\
+				x = 4&\Rightarrow y^2 \equiv 1\Mod{7}\Rightarrow y=1\Mod{7} \text{ \& } y=6\Mod{7}&\\
+				x = 5&\Rightarrow y^2 \equiv 2\Mod{7}\Rightarrow y=4\Mod{7} \text{ \& } y=3\Mod{7}&\\
+				x = 6&\Rightarrow y^2 \equiv 5\Mod{7}\text{(No solution)}&
+			\end{flalign*}
+			{\color{blue} So, points on the curve are $(0,4),(0,3),(2,4),(2,3),(4,1),(4,6),(5,4),(5,3)$ and $\mathcal{O}$ (point in infinity).}\\
+			The order of the group is 9.\\
+			$\alpha = (0,3) \Rightarrow x_1 = 0, y_1 = 3$, Computing $2\alpha = (0,3) + (0,3)$
+			\begin{flalign*}
+				\lambda &= (3.0^2 + 3)(2.3)^{-1}\Mod{7}&\\
+				&= 3.6^{-1}\Mod{7}&\\
+				&= 3.6\Mod{7}&\\
+				&= 4\Mod{7}
+			\end{flalign*}
+			So,
+			\begin{flalign*}
+				x_2 &= 4^2-0-0\Mod{7}&\\
+				&=16\Mod{7}&\\
+				&=2\Mod{7}&
+			\end{flalign*}
+			\begin{flalign*}
+				y_2 &= 4(0-2)-3\Mod{7}&\\
+				&= 3\Mod{7}&
+			\end{flalign*}
+			Hence, $2\alpha = (2,3)$. Calculating $3\alpha$.
+			\begin{flalign*}
+				\lambda &= (3.2^2 + 3)(2.3)^{-1} \Mod{7}&\\
+				& = 6\Mod{7}&
+			\end{flalign*}
+			So, $x_3 = 6^2 - 2 - 2 = 4\Mod{7}$\\
+			$y_3 = 6.(2-4)-3 = 6\Mod{7}$\\
+			Hence, $3\alpha = (4,6)$. Calculating $4\alpha$.\\
+			$\lambda = (3.4^2 + 3)(2.6)^{-1} = 6\Mod{7}$\\
+			$x_4 = 6^2-4-4 = 0\Mod{7}$\\
+			$y_4 = 4.(4-0)-6 = 3\Mod{7}$\\
+			Hence, $4\alpha = (0,3) = \alpha$.\\
+			{\color{blue} So, the order of $\alpha$ is 4 and $\alpha$ does not generate the group.}
+		\end{description}
+	\end{framed}
+\end{description}
+\end{document}
